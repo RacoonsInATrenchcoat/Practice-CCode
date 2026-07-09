@@ -149,6 +149,7 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
 - **Why it matters**: mark #4 evidence — a case where Claude surfaced a
   trade-off with real product-scope implications instead of resolving it
   unilaterally either way.
+- **My note**: This is simplyfing the testing to add new row or load premade.
 
 ## 2026-07-09 — Checkpoint 0.4 (status update + persistence) confirmed working
 - **Decision**: localStorage persistence, the per-row status control, and
