@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": ["Read", "Edit", "Write", "Bash(npm:*)", "Bash(git:*)"],
+    "deny": ["Read(./.env)", "Read(./secrets/**)"],
+    "defaultMode": "default",
+    "additionalDirectories": []
+  }
+}
