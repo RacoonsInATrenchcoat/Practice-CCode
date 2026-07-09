@@ -18,7 +18,13 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
 - src/index.html: markup and structure.
 - src/styles.css: all styling.
 - src/app.ts: state, rendering, and filtering logic. Compiles to app.js in
-  place (both are committed — there's no build step in hosting/deploy).
+  place (both are committed — there's no build step in hosting/deploy yet).
+  Run `npm run build` after every .ts edit, before committing — nothing
+  else compiles it, and a stale committed .js will silently ship old code.
+  This is an interim approach for active development: before the project is
+  considered done, committed compiled .js should be removed in favour of a
+  real build step at deploy time, so the repo reads as TypeScript-source-of-
+  truth, not a mix of source and generated files (see decision log).
 - src/data/: placeholder datasets (e.g. sample-actions.ts) standing in for a
   future real data source; only this file changes when persistence lands,
   not the app logic that consumes it.

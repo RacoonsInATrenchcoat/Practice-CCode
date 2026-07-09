@@ -102,3 +102,37 @@ The line of "Claude may additionally run an automated headless-browser check, bu
 - **Type**: User-confirmed.
 - **Why it matters**: closes the test/confirm step for checkpoint 0.2 before
   it merges into `main`.
+
+## 2026-07-09 — Compiled .js committed alongside .ts is interim, not final
+- **Decision**: Committing both `src/app.ts`/`src/data/sample-actions.ts`
+  and their compiled `.js` output stands for now (no build step exists at
+  hosting/deploy time), but this is explicitly an interim state. Before the
+  project is considered done, the plan is to remove committed compiled
+  output and add a real build step at deploy time instead, so the repo
+  reads as TypeScript-source-of-truth rather than source-plus-generated.
+- **Type**: User-directed, with a deferred follow-up. Claude had only noted
+  this trade-off inside a docs diff rather than raising it as its own
+  decision; the user caught the gap by asking directly why two versions of
+  each file existed, then set the standard: fine as a build convenience
+  now, must be cleaned up as a later step.
+- **Why it matters**: mark #4 evidence again — the user questioned something
+  that was technically explained but not clearly flagged as a decision, and
+  turned it into an explicit, trackable commitment rather than letting it
+  drift as an unexamined default.
+- **My note**:
+Normally, a compiler would be used that "builds" before shipping. 
+Here it seems to skip it and has a workaround method that rather has JS and TS at the same time.
+Made a note that "as long as it works" and to have a cleanup as last step, so only TS remains.
+
+## 2026-07-09 — Checkpoint 0.3 add-action prototype confirmed working
+- **Decision**: The add-action form (required-field validation, past-date
+  rejection, in-memory add with the list re-rendering live) was confirmed
+  working by the user directly: a full valid submission, the date
+  restriction, and a missing-priority submission all behaved as specified
+  in `add-action.md`. Same prototype scope as checkpoint 0.2 — in-memory
+  only, no persistence yet.
+- **Type**: User-confirmed, alongside Claude's own saved/announced headless
+  check of the same paths.
+- **Why it matters**: closes the test/confirm step for checkpoint 0.3 before
+  it merges into `main`.
+

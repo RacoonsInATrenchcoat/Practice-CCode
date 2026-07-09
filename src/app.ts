@@ -2,6 +2,10 @@ import { sampleActions, type Action, type Status, type Priority } from "./data/s
 
 const TODAY = new Date().toISOString().slice(0, 10);
 
+// Prototype checkpoint: in-memory working copy, not persisted. A later
+// checkpoint swaps this for reads/writes against localStorage.
+const actions: Action[] = [...sampleActions];
+
 const listBody = document.querySelector<HTMLTableSectionElement>("#action-list-body")!;
 const emptyState = document.querySelector<HTMLElement>("#empty-state")!;
 const table = document.querySelector<HTMLTableElement>("#action-table")!;
@@ -9,6 +13,14 @@ const statusFilter = document.querySelector<HTMLSelectElement>("#status-filter")
 const priorityFilter = document.querySelector<HTMLSelectElement>("#priority-filter")!;
 const buildingFilter = document.querySelector<HTMLSelectElement>("#building-filter")!;
 const overdueFilter = document.querySelector<HTMLInputElement>("#overdue-filter")!;
+
+const addForm = document.querySelector<HTMLFormElement>("#add-action-form")!;
+const newBuilding = document.querySelector<HTMLInputElement>("#new-building")!;
+const newDescription = document.querySelector<HTMLTextAreaElement>("#new-description")!;
+const newPriority = document.querySelector<HTMLSelectElement>("#new-priority")!;
+const newOwner = document.querySelector<HTMLInputElement>("#new-owner")!;
+const newTargetDate = document.querySelector<HTMLInputElement>("#new-target-date")!;
+const newEvidenceNote = document.querySelector<HTMLTextAreaElement>("#new-evidence-note")!;
 
 const STATUS_LABELS: Record<Status, string> = {
   open: "Open",
@@ -26,13 +38,25 @@ function isOverdue(action: Action): boolean {
   return action.status !== "completed" && action.targetDate < TODAY;
 }
 
-function populateBuildingFilter(actions: Action[]): void {
-  const buildings = Array.from(new Set(actions.map((action) => action.buildingRef))).sort();
+function populateBuildingFilter(currentActions: Action[]): void {
+  const previousValue = buildingFilter.value;
+  const buildings = Array.from(new Set(currentActions.map((action) => action.buildingRef))).sort();
+
+  buildingFilter.replaceChildren();
+  const allOption = document.createElement("option");
+  allOption.value = "all";
+  allOption.textContent = "All buildings";
+  buildingFilter.appendChild(allOption);
+
   for (const building of buildings) {
     const option = document.createElement("option");
     option.value = building;
     option.textContent = building;
     buildingFilter.appendChild(option);
+  }
+
+  if (buildings.includes(previousValue) || previousValue === "all") {
+    buildingFilter.value = previousValue;
   }
 }
 
@@ -68,7 +92,7 @@ function buildRow(action: Action): HTMLTableRowElement {
 }
 
 function render(): void {
-  const filtered = sampleActions.filter(matchesFilters);
+  const filtered = actions.filter(matchesFilters);
   listBody.replaceChildren(...filtered.map(buildRow));
 
   const hasResults = filtered.length > 0;
@@ -80,5 +104,84 @@ for (const control of [statusFilter, priorityFilter, buildingFilter, overdueFilt
   control.addEventListener("change", render);
 }
 
-populateBuildingFilter(sampleActions);
+// --- Add action form ---
+
+interface RequiredField {
+  input: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+  errorEl: HTMLElement;
+  label: string;
+}
+
+function requiredField(inputId: string, errorId: string, label: string): RequiredField {
+  return {
+    input: document.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`#${inputId}`)!,
+    errorEl: document.querySelector<HTMLElement>(`#${errorId}`)!,
+    label,
+  };
+}
+
+const requiredFields: RequiredField[] = [
+  requiredField("new-building", "new-building-error", "Building/block reference"),
+  requiredField("new-description", "new-description-error", "Description"),
+  requiredField("new-priority", "new-priority-error", "Priority"),
+  requiredField("new-owner", "new-owner-error", "Owner"),
+  requiredField("new-target-date", "new-target-date-error", "Target completion date"),
+];
+
+function clearFieldError(field: RequiredField): void {
+  field.errorEl.textContent = "";
+  field.input.removeAttribute("aria-invalid");
+}
+
+function setFieldError(field: RequiredField, message: string): void {
+  field.errorEl.textContent = message;
+  field.input.setAttribute("aria-invalid", "true");
+}
+
+function validateForm(): boolean {
+  let isValid = true;
+
+  for (const field of requiredFields) {
+    clearFieldError(field);
+    if (field.input.value.trim() === "") {
+      setFieldError(field, `${field.label} is required.`);
+      isValid = false;
+    }
+  }
+
+  if (newTargetDate.value.trim() !== "" && newTargetDate.value < TODAY) {
+    setFieldError(
+      requiredFields.find((f) => f.input === newTargetDate)!,
+      "Target completion date cannot be in the past."
+    );
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+addForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (!validateForm()) return;
+
+  const newAction: Action = {
+    id: crypto.randomUUID(),
+    buildingRef: newBuilding.value.trim(),
+    description: newDescription.value.trim(),
+    priority: newPriority.value as Priority,
+    owner: newOwner.value.trim(),
+    targetDate: newTargetDate.value,
+    status: "open",
+    evidenceNote: newEvidenceNote.value.trim() || undefined,
+  };
+
+  actions.unshift(newAction);
+  populateBuildingFilter(actions);
+  render();
+  addForm.reset();
+  for (const field of requiredFields) clearFieldError(field);
+});
+
+populateBuildingFilter(actions);
 render();

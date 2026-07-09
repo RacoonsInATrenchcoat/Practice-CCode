@@ -39,6 +39,76 @@ main {
   max-width: 72rem;
 }
 
+.add-action-panel {
+  background: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.add-action-panel h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.add-action-panel form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem 1.25rem;
+  align-items: start;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.875rem;
+}
+
+.form-field label {
+  color: var(--colour-muted);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--colour-border);
+  border-radius: 0.35rem;
+  font: inherit;
+  resize: vertical;
+}
+
+.form-field input[aria-invalid="true"],
+.form-field select[aria-invalid="true"],
+.form-field textarea[aria-invalid="true"] {
+  border-color: var(--colour-overdue);
+}
+
+.field-error {
+  margin: 0;
+  min-height: 1.1em;
+  color: var(--colour-overdue);
+  font-size: 0.8rem;
+}
+
+.add-action-panel button {
+  justify-self: start;
+  align-self: end;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 0.35rem;
+  background: #1b1f24;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.add-action-panel button:hover {
+  background: #333a42;
+}
+
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
