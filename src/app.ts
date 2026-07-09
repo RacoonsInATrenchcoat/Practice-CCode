@@ -1,13 +1,30 @@
 import { sampleActions, type Action, type Status, type Priority } from "./data/sample-actions.js";
 
 const TODAY = new Date().toISOString().slice(0, 10);
+const STORAGE_KEY = "remedial-actions";
 
-// Prototype checkpoint: in-memory working copy, not persisted. A later
-// checkpoint swaps this for reads/writes against localStorage.
-const actions: Action[] = [...sampleActions];
+function loadActions(): Action[] {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return [];
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as Action[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveActions(currentActions: Action[]): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(currentActions));
+}
+
+// Real persisted state: empty on a brand-new browser, per action-list-view.md.
+const actions: Action[] = loadActions();
 
 const listBody = document.querySelector<HTMLTableSectionElement>("#action-list-body")!;
 const emptyState = document.querySelector<HTMLElement>("#empty-state")!;
+const emptyStateMessage = document.querySelector<HTMLElement>("#empty-state-message")!;
+const loadSampleDataButton = document.querySelector<HTMLButtonElement>("#load-sample-data-button")!;
 const table = document.querySelector<HTMLTableElement>("#action-table")!;
 const statusFilter = document.querySelector<HTMLSelectElement>("#status-filter")!;
 const priorityFilter = document.querySelector<HTMLSelectElement>("#priority-filter")!;
@@ -68,25 +85,51 @@ function matchesFilters(action: Action): boolean {
   return true;
 }
 
+function textCell(label: string, value: string): HTMLTableCellElement {
+  const cell = document.createElement("td");
+  cell.dataset.label = label;
+  cell.textContent = value;
+  return cell;
+}
+
+function statusCell(action: Action): HTMLTableCellElement {
+  const cell = document.createElement("td");
+  cell.dataset.label = "Status";
+
+  const select = document.createElement("select");
+  select.className = "status-select";
+  select.setAttribute("aria-label", `Status for ${action.description}`);
+
+  for (const value of Object.keys(STATUS_LABELS) as Status[]) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = STATUS_LABELS[value];
+    option.selected = value === action.status;
+    select.appendChild(option);
+  }
+
+  select.addEventListener("change", () => {
+    action.status = select.value as Status;
+    saveActions(actions);
+    render();
+  });
+
+  cell.appendChild(select);
+  return cell;
+}
+
 function buildRow(action: Action): HTMLTableRowElement {
   const row = document.createElement("tr");
   if (isOverdue(action)) row.classList.add("is-overdue");
 
-  const cells: Array<[string, string]> = [
-    ["Building", action.buildingRef],
-    ["Description", action.description],
-    ["Priority", PRIORITY_LABELS[action.priority]],
-    ["Owner", action.owner],
-    ["Target date", action.targetDate + (isOverdue(action) ? " (overdue)" : "")],
-    ["Status", STATUS_LABELS[action.status]],
-  ];
-
-  for (const [label, value] of cells) {
-    const cell = document.createElement("td");
-    cell.dataset.label = label;
-    cell.textContent = value;
-    row.appendChild(cell);
-  }
+  row.appendChild(textCell("Building", action.buildingRef));
+  row.appendChild(textCell("Description", action.description));
+  row.appendChild(textCell("Priority", PRIORITY_LABELS[action.priority]));
+  row.appendChild(textCell("Owner", action.owner));
+  row.appendChild(
+    textCell("Target date", action.targetDate + (isOverdue(action) ? " (overdue)" : ""))
+  );
+  row.appendChild(statusCell(action));
 
   return row;
 }
@@ -98,11 +141,28 @@ function render(): void {
   const hasResults = filtered.length > 0;
   table.hidden = !hasResults;
   emptyState.hidden = hasResults;
+
+  if (!hasResults) {
+    const noActionsAtAll = actions.length === 0;
+    emptyStateMessage.textContent = noActionsAtAll
+      ? "No actions yet."
+      : "No actions match the selected filters.";
+    loadSampleDataButton.hidden = !noActionsAtAll;
+  }
 }
 
 for (const control of [statusFilter, priorityFilter, buildingFilter, overdueFilter]) {
   control.addEventListener("change", render);
 }
+
+// Dev/demo affordance only — not one of the four v1 stories. Only offered
+// when there are truly no actions in storage, never to replace real data.
+loadSampleDataButton.addEventListener("click", () => {
+  actions.push(...sampleActions);
+  saveActions(actions);
+  populateBuildingFilter(actions);
+  render();
+});
 
 // --- Add action form ---
 
@@ -177,6 +237,7 @@ addForm.addEventListener("submit", (event) => {
   };
 
   actions.unshift(newAction);
+  saveActions(actions);
   populateBuildingFilter(actions);
   render();
   addForm.reset();

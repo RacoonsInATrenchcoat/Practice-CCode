@@ -186,6 +186,14 @@ tr.is-overdue td:nth-child(5) {
   font-weight: 600;
 }
 
+.status-select {
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--colour-border);
+  border-radius: 0.35rem;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
 #empty-state {
   padding: 1.5rem;
   text-align: center;
@@ -193,4 +201,26 @@ tr.is-overdue td:nth-child(5) {
   background: var(--colour-surface);
   border: 1px dashed var(--colour-border);
   border-radius: 0.5rem;
+}
+
+#empty-state p {
+  margin: 0 0 0.75rem;
+}
+
+#empty-state p:last-child {
+  margin-bottom: 0;
+}
+
+#load-sample-data-button {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--colour-border);
+  border-radius: 0.35rem;
+  background: var(--colour-surface);
+  color: var(--colour-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+#load-sample-data-button:hover {
+  background: var(--colour-page);
 }

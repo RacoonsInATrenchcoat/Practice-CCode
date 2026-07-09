@@ -25,9 +25,15 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
   considered done, committed compiled .js should be removed in favour of a
   real build step at deploy time, so the repo reads as TypeScript-source-of-
   truth, not a mix of source and generated files (see decision log).
-- src/data/: placeholder datasets (e.g. sample-actions.ts) standing in for a
-  future real data source; only this file changes when persistence lands,
-  not the app logic that consumes it.
+- src/data/: sample-actions.ts is demo/seed data only, not the real data
+  source. Real state lives in the browser's localStorage (key
+  `remedial-actions`), read/written by src/app.ts's loadActions/saveActions.
+  A brand-new browser has zero actions, per action-list-view.md's empty
+  state — sample data is never auto-loaded.
+- The "Load sample data (dev)" button on the empty state is a demo/dev
+  affordance, not one of the four v1 stories. It only appears when there
+  are truly zero actions in storage; naming it explicitly here so it isn't
+  mistaken for in-scope product behaviour later.
 - docs/: living knowledge base (brief, domain notes, stories, decision log).
 
 ## conventions

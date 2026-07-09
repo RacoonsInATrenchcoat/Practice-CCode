@@ -136,3 +136,41 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
 - **Why it matters**: closes the test/confirm step for checkpoint 0.3 before
   it merges into `main`.
 
+## 2026-07-09 — Sample data drops out on go-live; kept only as a dev affordance
+- **Decision**: Once localStorage was wired up (checkpoint 0.4), the app no
+  longer auto-loads `sample-actions.ts` into storage — a brand-new browser
+  shows the true empty state per `action-list-view.md`. A "Load sample data
+  (dev)" button was added instead, visible only when there are zero actions,
+  explicitly named as an addition beyond the four core v1 stories rather
+  than folded in silently.
+- **Type**: User-directed. Claude raised the question (empty-by-default vs.
+  keeping a demo affordance) rather than picking silently, since it affects
+  both story-correctness and how easily the prototype can be demoed.
+- **Why it matters**: mark #4 evidence — a case where Claude surfaced a
+  trade-off with real product-scope implications instead of resolving it
+  unilaterally either way.
+
+## 2026-07-09 — Checkpoint 0.4 (status update + persistence) confirmed working
+- **Decision**: localStorage persistence, the per-row status control, and
+  the sample-data dev affordance were confirmed working by the user
+  directly: seeded sample data, reloaded (persisted), added a real action
+  (seed button correctly disappeared once storage was no longer empty),
+  matching `update-status.md` and the corrected `action-list-view.md`
+  empty-state behaviour. Confirmed alongside Claude's saved headless check.
+- **Type**: User-confirmed.
+- **Why it matters**: closes the test/confirm step for checkpoint 0.4 before
+  it merges into `main`. All three v1 stories (list/filter, add, update
+  status) are now implemented against real persisted state, not prototype
+  sample data.
+
+## 2026-07-09 — Recurring slip: Claude editing CLAUDE.md before approval
+- **Decision**: Claude wrote directly to `CLAUDE.md` a second time
+  (checkpoint 0.4's architecture correction) before showing the diff for
+  approval, repeating the exact process gap from checkpoint 0.2. Named
+  explicitly as a recurring pattern, not a one-off, since it happened twice
+  despite being corrected and recorded once already.
+- **Type**: Corrected AI process, repeat occurrence.
+- **Why it matters**: mark #4 evidence that naming a rule once in
+  `CLAUDE.md` doesn't guarantee it's followed — this is worth watching for
+  again in later checkpoints rather than assuming it's resolved.
+
