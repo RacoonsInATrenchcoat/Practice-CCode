@@ -5,10 +5,13 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "dev": "serve src -l 5173"
+    "dev": "npm run build && serve src -l 5173",
+    "predeploy": "npm run build",
+    "deploy": "firebase deploy"
   },
   "devDependencies": {
     "typescript": "^5.5.4",
-    "serve": "^14.2.3"
+    "serve": "^14.2.3",
+    "firebase-tools": "^13.15.4"
   }
 }

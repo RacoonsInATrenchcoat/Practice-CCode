@@ -174,3 +174,34 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
   `CLAUDE.md` doesn't guarantee it's followed — this is worth watching for
   again in later checkpoints rather than assuming it's resolved.
 
+## 2026-07-09 — One-off accessibility scan run; linting/unit tests declined for now
+- **Decision**: Given the choice of what "standard checks" to add before
+  the TypeScript cleanup, the user chose a one-off axe-core accessibility
+  scan only, declining ESLint and unit tests for now. The scan ran against
+  three states (empty, populated list, form with validation errors showing)
+  with zero violations across all three. Not added as ongoing project
+  tooling — a disposable, announced script, same as the smoke tests.
+- **Type**: User-directed, informed by options Claude laid out with their
+  respective costs (one-off check vs. permanent convention changes).
+- **Why it matters**: mark #4 evidence of deliberate scope control — real
+  quality signal gathered without expanding the "no test/lint tooling in
+  v1" convention just because tooling was available.
+
+## 2026-07-09 — TypeScript cleanup: compiled JS untracked, deploy scaffolded
+- **Decision**: Closed the checkpoint-0.2 deferral. `src/*.js` is now
+  gitignored and untracked (`git rm --cached`); `npm run dev` builds before
+  serving so nothing relies on a human remembering to run `npm run build`
+  first. The repo is TypeScript-source-of-truth. Alongside this, added
+  `firebase.json` and a `firebase-tools` devDependency plus `npm run
+  deploy` (build then `firebase deploy`) — scaffolding only, since no
+  `.firebaserc` is committed and `firebase login`/`firebase use --add` must
+  still be run manually by the user against their own Firebase account.
+- **Type**: User-directed. Claude flagged that `npm run deploy` wouldn't
+  actually work yet when the user asked directly, rather than letting them
+  discover that by trying it; the user then chose to scaffold the deploy
+  config now rather than defer it further.
+- **Why it matters**: mark #4 evidence of the user checking a claim before
+  relying on it ("will this work afterwards?") and Claude giving an honest
+  "not yet, here's exactly what's missing" instead of implying it was done.
+- **My note**:
+

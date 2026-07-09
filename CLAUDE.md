@@ -8,23 +8,28 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
 - Data persisted in browser localStorage.
 
 ## commands
-- `npm install` — install TypeScript and the local dev server.
-- `npm run build` — compile `src/**/*.ts` to `.js` in place; run after any
-  `.ts` change before viewing or deploying.
-- `npm run dev` — serve `src/` at http://localhost:5173 for local viewing.
-- No test or lint tooling in v1.
+- `npm install` — install TypeScript, the local dev server, and the
+  Firebase CLI.
+- `npm run build` — compile `src/**/*.ts` to `.js` in place (gitignored,
+  regenerated on demand — not committed).
+- `npm run dev` — builds, then serves `src/` at http://localhost:5173.
+- `npm run deploy` — builds, then runs `firebase deploy`. Requires
+  `firebase login` and `firebase use --add` (to link your own Firebase
+  project) run once, manually, first — not automated, not run by Claude.
+- No test or lint tooling beyond a one-off accessibility scan (see decision
+  log); TypeScript's own strict type-checking is the only check on every
+  build.
 
 ## architecture
 - src/index.html: markup and structure.
 - src/styles.css: all styling.
 - src/app.ts: state, rendering, and filtering logic. Compiles to app.js in
-  place (both are committed — there's no build step in hosting/deploy yet).
-  Run `npm run build` after every .ts edit, before committing — nothing
-  else compiles it, and a stale committed .js will silently ship old code.
-  This is an interim approach for active development: before the project is
-  considered done, committed compiled .js should be removed in favour of a
-  real build step at deploy time, so the repo reads as TypeScript-source-of-
-  truth, not a mix of source and generated files (see decision log).
+  place via `npm run build` — the compiled output is gitignored, not
+  committed. The repo is TypeScript-source-of-truth.
+- firebase.json: Hosting config, points at src/ (compiled output included,
+  .ts source excluded from the deploy bundle). No .firebaserc is committed
+  — that's generated locally by `firebase use --add` and is
+  machine/account-specific, so it can't be set up on your behalf.
 - src/data/: sample-actions.ts is demo/seed data only, not the real data
   source. Real state lives in the browser's localStorage (key
   `remedial-actions`), read/written by src/app.ts's loadActions/saveActions.
