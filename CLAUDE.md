@@ -35,9 +35,10 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
   live app. The API key in it is safe to have public (Firebase's access
   control is Security Rules, not key secrecy).
 - public/: fully generated build/deploy output (gitignored, never
-  committed) — what firebase.json points Hosting at. No .firebaserc is
-  committed either — that's generated locally by `firebase use --add` and
-  is machine/account-specific, so it can't be set up on your behalf.
+  committed) — what firebase.json points Hosting at. .firebaserc is
+  committed (it's just the project alias, `claudecproject`, not a secret)
+  — that's how a fresh clone knows which Firebase project to deploy to.
+  `firebase login` itself still can't be set up on your behalf.
 - src/data/: sample-actions.ts is demo/seed data only, not the real data
   source. Real state lives in the browser's localStorage (key
   `remedial-actions`), read/written by src/app.ts's loadActions/saveActions.

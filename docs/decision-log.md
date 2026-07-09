@@ -250,3 +250,17 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
   mistake it for either dead code to delete or an active feature to build
   against.
 
+## 2026-07-09 — Claude self-corrected a documentation/reality mismatch
+- **Decision**: `CLAUDE.md` claimed `.firebaserc` wasn't committed, but
+  Claude had actually staged and committed it in the same checkpoint. On
+  noticing, Claude checked the file wasn't sensitive (just the project
+  alias, no credentials), confirmed committing it is Firebase's own default
+  convention (so a fresh clone knows which project to deploy to), and fixed
+  the documentation to match reality rather than un-committing the file.
+- **Type**: Claude self-caught, not user-caught. Flagged proactively before
+  being asked, then confirmed with the user before applying the fix.
+- **Why it matters**: mark #4 evidence worth contrasting with the earlier
+  "recurring slip" entries — this time the inconsistency was caught by
+  Claude checking its own prior claim against actual repo state, not by
+  the user finding it first.
+
