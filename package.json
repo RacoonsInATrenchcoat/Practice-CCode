@@ -3,15 +3,18 @@
   "private": true,
   "version": "0.2.0",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-static-assets.mjs",
     "watch": "tsc --watch",
-    "dev": "npm run build && serve src -l 5173",
+    "dev": "npm run build && serve public -l 5173",
     "predeploy": "npm run build",
     "deploy": "firebase deploy"
   },
   "devDependencies": {
-    "typescript": "^5.5.4",
+    "firebase-tools": "^13.15.4",
     "serve": "^14.2.3",
-    "firebase-tools": "^13.15.4"
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "firebase": "^12.16.0"
   }
 }

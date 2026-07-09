@@ -205,3 +205,48 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
   "not yet, here's exactly what's missing" instead of implying it was done.
 - **My note**:
 
+## 2026-07-09 — Firebase account-linking done by the user, not Claude
+- **Decision**: The user ran their own Firebase console/CLI setup —
+  registering the project, linking it via `firebase use --add`
+  (`.firebaserc`, project `claudecproject`), and changing `firebase.json`'s
+  Hosting `public` dir to `public`. This is exactly the account-level step
+  Claude had flagged it couldn't do on the user's behalf.
+- **Type**: User-directed, executed entirely outside Claude's tool access.
+- **Why it matters**: mark #4 evidence of a clean handoff — Claude named
+  the boundary of what it could do, and the user carried out the rest
+  correctly without needing it re-explained.
+
+## 2026-07-09 — Restructured build output from in-place to public/
+- **Decision**: Following the user's Firebase setup (Hosting now expects a
+  `public/` folder), changed the build so `src/` holds only TypeScript
+  source plus the `index.html`/`styles.css` templates, and `npm run build`
+  compiles + copies everything into a fully generated, gitignored
+  `public/` folder — via a new zero-dependency `scripts/
+  copy-static-assets.mjs`, not a bundler. `npm run dev` now serves
+  `public/` too, so local preview always matches what deploys. The
+  placeholder `public/index.html` that `firebase init` generated (the
+  default "Welcome to Firebase Hosting" page, loading every Firebase SDK
+  feature) was deleted in favour of the real app being built there.
+- **Type**: User-directed. Claude inspected the state the user's setup had
+  left the repo in, reported it plainly (what changed, what was still the
+  default Firebase placeholder, what was unused), and proposed the
+  restructuring; the user reviewed and confirmed each part before it was
+  built and again after testing it themselves.
+- **Why it matters**: closes the loop from the checkpoint 0.5 deferral —
+  the repo's build output now matches exactly what Firebase Hosting will
+  actually serve, with no manual "remember to also update public/" step.
+
+## 2026-07-09 — Firebase client SDK kept as inert scaffolding
+- **Decision**: The `firebase` npm package and `src/firebase-config.js`
+  (renamed from `firebase config.js` to fix a kebab-case convention
+  violation) stay in the repo even though nothing currently uses them and
+  the project is explicitly Hosting-only. Kept for possible future Firebase
+  service usage, not wired into the app.
+- **Type**: User-directed. Claude flagged both as unused/contradicting the
+  stated "Hosting only" scope and asked directly rather than assuming
+  either removal or retention; the user chose to keep them.
+- **Why it matters**: mark #4 evidence — an explicit call to carry unused
+  scaffolding forward on purpose, recorded so a future session doesn't
+  mistake it for either dead code to delete or an active feature to build
+  against.
+

@@ -10,9 +10,11 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
 ## commands
 - `npm install` — install TypeScript, the local dev server, and the
   Firebase CLI.
-- `npm run build` — compile `src/**/*.ts` to `.js` in place (gitignored,
-  regenerated on demand — not committed).
-- `npm run dev` — builds, then serves `src/` at http://localhost:5173.
+- `npm run build` — compiles `src/**/*.ts` into `public/` and copies
+  `src/index.html`/`src/styles.css` there too. `public/` is fully
+  generated, gitignored, and is exactly what gets deployed.
+- `npm run dev` — builds, then serves `public/` at http://localhost:5173,
+  so local preview always matches what `deploy` would publish.
 - `npm run deploy` — builds, then runs `firebase deploy`. Requires
   `firebase login` and `firebase use --add` (to link your own Firebase
   project) run once, manually, first — not automated, not run by Claude.
@@ -21,15 +23,21 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
   build.
 
 ## architecture
-- src/index.html: markup and structure.
-- src/styles.css: all styling.
-- src/app.ts: state, rendering, and filtering logic. Compiles to app.js in
-  place via `npm run build` — the compiled output is gitignored, not
-  committed. The repo is TypeScript-source-of-truth.
-- firebase.json: Hosting config, points at src/ (compiled output included,
-  .ts source excluded from the deploy bundle). No .firebaserc is committed
-  — that's generated locally by `firebase use --add` and is
-  machine/account-specific, so it can't be set up on your behalf.
+- src/index.html, src/styles.css: source templates, copied into public/
+  by `npm run build` (via scripts/copy-static-assets.mjs) — never edit the
+  copies in public/ directly, they're overwritten on every build.
+- src/app.ts: state, rendering, and filtering logic. Compiles into
+  public/app.js. The repo is TypeScript-source-of-truth; public/ holds
+  zero hand-written content.
+- src/firebase-config.js: Firebase SDK config from the console's "add web
+  app" flow. Currently inert scaffolding — nothing imports or wires it up.
+  Kept for possible future Firebase usage beyond Hosting; not part of the
+  live app. The API key in it is safe to have public (Firebase's access
+  control is Security Rules, not key secrecy).
+- public/: fully generated build/deploy output (gitignored, never
+  committed) — what firebase.json points Hosting at. No .firebaserc is
+  committed either — that's generated locally by `firebase use --add` and
+  is machine/account-specific, so it can't be set up on your behalf.
 - src/data/: sample-actions.ts is demo/seed data only, not the real data
   source. Real state lives in the browser's localStorage (key
   `remedial-actions`), read/written by src/app.ts's loadActions/saveActions.
