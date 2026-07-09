@@ -1,2 +1,8 @@
 # Personal working notes (not part of the product knowledge base)
 docs/Self/
+
+# Dependencies
+node_modules/
+
+# Local, personal Claude Code permission overrides (not shared config)
+.claude/settings.local.json

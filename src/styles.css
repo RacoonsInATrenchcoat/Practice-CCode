@@ -1,0 +1,126 @@
+:root {
+  color-scheme: light;
+  --colour-text: #1b1f24;
+  --colour-muted: #5b6570;
+  --colour-border: #d7dce1;
+  --colour-surface: #ffffff;
+  --colour-page: #f4f6f8;
+  --colour-overdue: #b3261e;
+  --colour-overdue-bg: #fdecea;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--colour-page);
+  color: var(--colour-text);
+}
+
+.page-header {
+  padding: 1.5rem 2rem 1rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--colour-muted);
+}
+
+main {
+  padding: 0 2rem 2rem;
+  max-width: 72rem;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: end;
+  background: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.filter-field label {
+  color: var(--colour-muted);
+}
+
+.filter-field select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--colour-border);
+  border-radius: 0.35rem;
+  font-size: 0.9rem;
+  min-width: 10rem;
+}
+
+.filter-field-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--colour-text);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid var(--colour-border);
+  font-size: 0.9rem;
+}
+
+th {
+  background: #eef1f4;
+  color: var(--colour-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tr.is-overdue {
+  background: var(--colour-overdue-bg);
+}
+
+tr.is-overdue td:nth-child(5) {
+  color: var(--colour-overdue);
+  font-weight: 600;
+}
+
+#empty-state {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--colour-muted);
+  background: var(--colour-surface);
+  border: 1px dashed var(--colour-border);
+  border-radius: 0.5rem;
+}

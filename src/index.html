@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Building Safety Remedial Action Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="page-header">
+    <h1>Remedial actions</h1>
+    <p class="subtitle">Actions raised from fire risk assessments, tracked to completion.</p>
+  </header>
+
+  <main>
+    <section class="filter-bar" aria-label="Filter actions">
+      <div class="filter-field">
+        <label for="status-filter">Status</label>
+        <select id="status-filter">
+          <option value="all">All statuses</option>
+          <option value="open">Open</option>
+          <option value="in-progress">In progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <label for="priority-filter">Priority</label>
+        <select id="priority-filter">
+          <option value="all">All priorities</option>
+          <option value="immediate">Immediate</option>
+          <option value="short-term">Short-term</option>
+          <option value="longer-term">Longer-term</option>
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <label for="building-filter">Building</label>
+        <select id="building-filter">
+          <option value="all">All buildings</option>
+        </select>
+      </div>
+
+      <div class="filter-field filter-field-checkbox">
+        <label for="overdue-filter">
+          <input type="checkbox" id="overdue-filter" />
+          Overdue only
+        </label>
+      </div>
+    </section>
+
+    <section aria-label="Action list">
+      <table id="action-table">
+        <thead>
+          <tr>
+            <th>Building</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Owner</th>
+            <th>Target date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="action-list-body"></tbody>
+      </table>
+
+      <p id="empty-state" hidden>No actions match the selected filters.</p>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

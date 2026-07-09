@@ -8,12 +8,20 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
 - Data persisted in browser localStorage.
 
 ## commands
-- (No test or lint tooling in v1.)
+- `npm install` — install TypeScript and the local dev server.
+- `npm run build` — compile `src/**/*.ts` to `.js` in place; run after any
+  `.ts` change before viewing or deploying.
+- `npm run dev` — serve `src/` at http://localhost:5173 for local viewing.
+- No test or lint tooling in v1.
 
 ## architecture
 - src/index.html: markup and structure.
 - src/styles.css: all styling.
-- src/app.js: state, rendering, and filtering logic.
+- src/app.ts: state, rendering, and filtering logic. Compiles to app.js in
+  place (both are committed — there's no build step in hosting/deploy).
+- src/data/: placeholder datasets (e.g. sample-actions.ts) standing in for a
+  future real data source; only this file changes when persistence lands,
+  not the app logic that consumes it.
 - docs/: living knowledge base (brief, domain notes, stories, decision log).
 
 ## conventions
@@ -46,3 +54,7 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
   remote (push, first remote add, etc).
 - docs/Self/ is personal working notes, not the product knowledge base, and
   is excluded from git via .gitignore.
+- UI verification: the user checks changes themselves via `npm run dev`.
+  Claude may additionally run an automated headless-browser check, but it
+  must use a saved, visible script (never a silent/throwaway one) and
+  Claude must say so before running it.
