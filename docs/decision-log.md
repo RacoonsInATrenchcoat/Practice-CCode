@@ -329,6 +329,7 @@ As it mentions above, having a "clear" button made it easier to test functionali
   portfolio-facing layer on top of the working docs, distinct from mark #3
   but written for the actual target audience the project brief names.
 - **My note**:
+I asked for a cleanup pass here, checked with what it thinks is required, asked to re-check the original metrics and if anything it thinks is missed.
 
 ## 2026-07-10 — Final redeploy; v1 complete
 - **Decision**: Ran `npm run deploy` after the clear-list button and the
@@ -346,3 +347,7 @@ As it mentions above, having a "clear" button made it easier to test functionali
   `docs/project-summary.md` for the current-state overview this entry
   confirms is accurate.
 - **My note**:
+Final checkpoint. All the functionality works, the user stories are completed.
+Technically it is done and working on the "live environment" build.
+Testing for functionality was done by both it and me.
+Readme.md is created as last step, so there is a quick "one stop shop" summary of what was done for any person who this is handed over / gets it later to start with.
