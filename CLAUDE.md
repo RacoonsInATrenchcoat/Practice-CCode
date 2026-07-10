@@ -54,7 +54,12 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
   there is at least one action — the reset counterpart to "Load sample
   data (dev)", for bouncing between empty/sample/real data without
   clearing browser storage by hand.
-- docs/: living knowledge base (brief, domain notes, stories, decision log).
+- docs/: living knowledge base (brief, stories, decision log,
+  project-summary.md for a short current-state overview). No domain-notes
+  file — it was scaffolded early on but never needed, and was removed.
+- README.md: portfolio-facing overview for outside readers (e.g. an
+  interviewer), linking into docs/ for full detail. Distinct from this
+  file, which is the working reference for building in this repo.
 
 ## conventions
 - kebab-case for all file and folder names.
