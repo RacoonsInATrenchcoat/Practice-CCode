@@ -283,3 +283,23 @@ Interestingly, I had to this manually and even before I asked it, it seemed to n
   just present. All four v1 stories (list/filter, add, update status,
   persistence) are live on real Firebase Hosting.
 - **My note**:
+
+## 2026-07-10 — "Clear list (dev)" button added
+- **Decision**: Added a "Clear list (dev)" button next to the filter bar,
+  the reset counterpart to "Load sample data (dev)": it wipes all actions
+  from `localStorage` after a `confirm()` prompt, and only appears when at
+  least one action exists. Lets testing bounce between empty/sample/real
+  data without clearing browser storage by hand. Explicitly a demo/dev
+  affordance, not one of the four v1 stories, same as its counterpart.
+- **Type**: User-directed. The user requested the feature directly as a
+  short-term priority after the first live deploy; Claude proposed a small
+  plan (placement, visibility, confirm-prompt) before building, per the
+  discovery-before-delivery convention, and the user confirmed it as
+  described.
+- **Why it matters**: mark #1 evidence (rapid, testable UX addition) and a
+  clean instance of the plan → build → test/confirm → document cadence
+  running in full on a small scope.
+- **Confirmed**: user tested manually-added data and sample data, both
+  clear correctly with the confirm prompt intact and no regressions to
+  other functionality; verified directly via `npm run dev`, not by Claude.
+- **My note**:

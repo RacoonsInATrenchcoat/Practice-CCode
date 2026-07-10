@@ -48,6 +48,12 @@ Learning-and-portfolio project. See docs/product-brief.md for full context.
   affordance, not one of the four v1 stories. It only appears when there
   are truly zero actions in storage; naming it explicitly here so it isn't
   mistaken for in-scope product behaviour later.
+- The "Clear list (dev)" button (next to the filter bar) is likewise a
+  demo/dev affordance, not one of the four v1 stories. It clears all
+  actions from storage after a confirm prompt, and only appears when
+  there is at least one action — the reset counterpart to "Load sample
+  data (dev)", for bouncing between empty/sample/real data without
+  clearing browser storage by hand.
 - docs/: living knowledge base (brief, domain notes, stories, decision log).
 
 ## conventions
