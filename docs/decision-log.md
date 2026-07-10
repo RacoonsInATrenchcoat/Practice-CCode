@@ -282,7 +282,8 @@ Interestingly, I had to this manually and even before I asked it, it seemed to n
   `firebase.json`'s Hosting config are now proven to work end-to-end, not
   just present. All four v1 stories (list/filter, add, update status,
   persistence) are live on real Firebase Hosting.
-- **My note**:
+- **My note**: 
+Usual steps for setup. Interesthing that it refused/"cannot do" the login and linking phase for Firebase Hosting, which is probably a good thing.
 
 ## 2026-07-10 — "Clear list (dev)" button added
 - **Decision**: Added a "Clear list (dev)" button next to the filter bar,
@@ -302,4 +303,29 @@ Interestingly, I had to this manually and even before I asked it, it seemed to n
 - **Confirmed**: user tested manually-added data and sample data, both
   clear correctly with the confirm prompt intact and no regressions to
   other functionality; verified directly via `npm run dev`, not by Claude.
+- **My note**:
+As it mentions above, having a "clear" button made it easier to test functionality without needing to manually clear cache. Small change but helps any future steps.
+
+## 2026-07-10 — Wrap-up documentation pass: domain-notes removed, README and project-summary added
+- **Decision**: Three changes made together as the project's closing
+  documentation pass:
+  - `docs/domain-notes.md` deleted. It was scaffolded at the start of the
+    project alongside the other docs files but was never filled in — the
+    original use-case for it didn't end up being needed.
+  - `README.md` added at the repo root: a portfolio-facing overview for
+    outside readers (an interviewer specifically) who land on the GitHub
+    repo without this project's working context, linking into `docs/` for
+    full detail.
+  - `docs/project-summary.md` added: a short, single-file "what/why/how"
+    overview of current capabilities, what was deliberately left out of
+    scope, and where the AI-workflow judgement shows up — distinct from
+    the full decision-by-decision detail in this file.
+- **Type**: User-directed. The user asked directly for all three, having
+  reviewed a status check-in against `product-brief.md`; Claude proposed
+  file names/placement and drafted the CLAUDE.md diff for the docs/
+  architecture bullet, which the user approved before it was saved.
+- **Why it matters**: mark #3 evidence — closing an unused scaffold rather
+  than leaving it to confuse a future reader, and adding a genuinely
+  portfolio-facing layer on top of the working docs, distinct from mark #3
+  but written for the actual target audience the project brief names.
 - **My note**:
