@@ -25,6 +25,7 @@ const listBody = document.querySelector<HTMLTableSectionElement>("#action-list-b
 const emptyState = document.querySelector<HTMLElement>("#empty-state")!;
 const emptyStateMessage = document.querySelector<HTMLElement>("#empty-state-message")!;
 const loadSampleDataButton = document.querySelector<HTMLButtonElement>("#load-sample-data-button")!;
+const clearListButton = document.querySelector<HTMLButtonElement>("#clear-list-button")!;
 const table = document.querySelector<HTMLTableElement>("#action-table")!;
 const statusFilter = document.querySelector<HTMLSelectElement>("#status-filter")!;
 const priorityFilter = document.querySelector<HTMLSelectElement>("#priority-filter")!;
@@ -149,6 +150,8 @@ function render(): void {
       : "No actions match the selected filters.";
     loadSampleDataButton.hidden = !noActionsAtAll;
   }
+
+  clearListButton.hidden = actions.length === 0;
 }
 
 for (const control of [statusFilter, priorityFilter, buildingFilter, overdueFilter]) {
@@ -159,6 +162,16 @@ for (const control of [statusFilter, priorityFilter, buildingFilter, overdueFilt
 // when there are truly no actions in storage, never to replace real data.
 loadSampleDataButton.addEventListener("click", () => {
   actions.push(...sampleActions);
+  saveActions(actions);
+  populateBuildingFilter(actions);
+  render();
+});
+
+// Dev/demo affordance only — not one of the four v1 stories. Lets testing
+// bounce between empty/sample/real data without clearing storage by hand.
+clearListButton.addEventListener("click", () => {
+  if (!confirm("Clear all actions? This cannot be undone.")) return;
+  actions.length = 0;
   saveActions(actions);
   populateBuildingFilter(actions);
   render();

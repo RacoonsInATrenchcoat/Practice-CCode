@@ -174,6 +174,7 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
 - **Why it matters**: mark #4 evidence that naming a rule once in
   `CLAUDE.md` doesn't guarantee it's followed — this is worth watching for
   again in later checkpoints rather than assuming it's resolved.
+- **My note**: Was curious if the pre-written guardrail in Claude.md is more important than what was asked and this proves that no, it can ignore it multiple times. This was without explicit overwriting or question from my side.
 
 ## 2026-07-09 — One-off accessibility scan run; linting/unit tests declined for now
 - **Decision**: Given the choice of what "standard checks" to add before
@@ -187,6 +188,7 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
 - **Why it matters**: mark #4 evidence of deliberate scope control — real
   quality signal gathered without expanding the "no test/lint tooling in
   v1" convention just because tooling was available.
+- **My note**: It is correct, this was scope. IRL it would be likely required.
 
 ## 2026-07-09 — TypeScript cleanup: compiled JS untracked, deploy scaffolded
 - **Decision**: Closed the checkpoint-0.2 deferral. `src/*.js` is now
@@ -204,7 +206,8 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
 - **Why it matters**: mark #4 evidence of the user checking a claim before
   relying on it ("will this work afterwards?") and Claude giving an honest
   "not yet, here's exactly what's missing" instead of implying it was done.
-- **My note**:
+- **My note**: Firebase was installed from my side and wanted to ensure it works afterwards.
+Interestingly, I had to this manually and even before I asked it, it seemed to not know what to prepare for this setup.
 
 ## 2026-07-09 — Firebase account-linking done by the user, not Claude
 - **Decision**: The user ran their own Firebase console/CLI setup —
@@ -216,6 +219,7 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
 - **Why it matters**: mark #4 evidence of a clean handoff — Claude named
   the boundary of what it could do, and the user carried out the rest
   correctly without needing it re-explained.
+- **My note**: Cont of the previous one, afterwards it was better to reply, seeming to help if the code was already in place.
 
 ## 2026-07-09 — Restructured build output from in-place to public/
 - **Decision**: Following the user's Firebase setup (Hosting now expects a
@@ -264,4 +268,38 @@ Made a note that "as long as it works" and to have a cleanup as last step, so on
   "recurring slip" entries — this time the inconsistency was caught by
   Claude checking its own prior claim against actual repo state, not by
   the user finding it first.
+- **My note**: Yep, interesthing mistake here. As before that Claude.md is not a full guardrail, but also problematic that it made changes (to solve the issue) without checking-in first. This means that if it found a "problem" in his eyes, it may be adjusted, regardless of context and will need reverting (that is, if found!).
 
+## 2026-07-10 — First live Firebase Hosting deploy confirmed working
+- **Decision**: The user ran `npm run deploy` (build then `firebase deploy`)
+  against their own linked Firebase project and confirmed the live Hosting
+  URL works correctly. This is the first time the v1 app has been deployed
+  anywhere beyond local `npm run dev`.
+- **Type**: User-run and user-confirmed, entirely outside Claude's tool
+  access (deploy was flagged from the start as a manual, user-run step).
+- **Why it matters**: closes the loop on the deploy scaffolding added in the
+  TypeScript-cleanup checkpoint — `predeploy`/`deploy` in `package.json` and
+  `firebase.json`'s Hosting config are now proven to work end-to-end, not
+  just present. All four v1 stories (list/filter, add, update status,
+  persistence) are live on real Firebase Hosting.
+- **My note**:
+
+## 2026-07-10 — "Clear list (dev)" button added
+- **Decision**: Added a "Clear list (dev)" button next to the filter bar,
+  the reset counterpart to "Load sample data (dev)": it wipes all actions
+  from `localStorage` after a `confirm()` prompt, and only appears when at
+  least one action exists. Lets testing bounce between empty/sample/real
+  data without clearing browser storage by hand. Explicitly a demo/dev
+  affordance, not one of the four v1 stories, same as its counterpart.
+- **Type**: User-directed. The user requested the feature directly as a
+  short-term priority after the first live deploy; Claude proposed a small
+  plan (placement, visibility, confirm-prompt) before building, per the
+  discovery-before-delivery convention, and the user confirmed it as
+  described.
+- **Why it matters**: mark #1 evidence (rapid, testable UX addition) and a
+  clean instance of the plan → build → test/confirm → document cadence
+  running in full on a small scope.
+- **Confirmed**: user tested manually-added data and sample data, both
+  clear correctly with the confirm prompt intact and no regressions to
+  other functionality; verified directly via `npm run dev`, not by Claude.
+- **My note**:

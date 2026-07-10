@@ -11,3 +11,6 @@ public/
 
 # Local, personal Claude Code permission overrides (not shared config)
 .claude/settings.local.json
+
+# Firebase CLI's local deploy cache (hosting deploy history/hashes)
+.firebase/
