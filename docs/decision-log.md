@@ -329,3 +329,20 @@ As it mentions above, having a "clear" button made it easier to test functionali
   portfolio-facing layer on top of the working docs, distinct from mark #3
   but written for the actual target audience the project brief names.
 - **My note**:
+
+## 2026-07-10 — Final redeploy; v1 complete
+- **Decision**: Ran `npm run deploy` after the clear-list button and the
+  README/project-summary documentation pass were both merged into `main`,
+  so `https://claudecproject.web.app` now serves the current state of the
+  repo rather than the earlier build from the first deploy. With this,
+  every item in `product-brief.md`'s v1 scope is built, tested, documented,
+  and live; no open scope remains.
+- **Type**: User-directed as the explicit final step of a wrap-up
+  conversation, run by Claude with prior agreement rather than asked again
+  per deploy (deploy itself remains a user-account action Claude can only
+  run once login/linking is already in place, per the earlier deploy
+  entries).
+- **Why it matters**: closes the project. Read alongside
+  `docs/project-summary.md` for the current-state overview this entry
+  confirms is accurate.
+- **My note**:
